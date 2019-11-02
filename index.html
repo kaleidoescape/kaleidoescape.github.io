@@ -2,11 +2,13 @@
 layout: default
 title: Hello World!
 ---
+{% include mathjax.html %}
+
+
 <div class="blurb">
-	<h1>Hello World!</h1>
-	<p>
-When \(a \ne 0\), there are two solutions to \(ax^2 + bx + c = 0\) and they are
-  \[x = {-b \pm \sqrt{b^2-4ac} \over 2a}.\]
- <a href="/about">Read more about my life...</a></p>
-</div><!-- /.blurb --> 
+	<h1>Hi there</h1>
+	<p>Inline eq: $E = m\cdot c^2 \label{eq:mc2}$ <a href="/about">Read more about my life...</a></p>
+    <p>Equation block:
+  \[x = {-b \pm \sqrt{b^2-4ac} \over 2a}.\]</p>
+</div><!-- /.blurb -->
 
