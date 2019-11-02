@@ -1,12 +1,12 @@
 ---
 layout: default
-title: Hello World!
+title: KaleidoEscape
 ---
+<ul class="posts">
 
-<div class="blurb">
-	<h1>Hi there</h1>
-	<p>Inline eq: $E = m\cdot c^2 \label{eq:mc2}$ <a href="/about">Read more about my life...</a></p>
-    <p>Equation block:
-  \[x = {-b \pm \sqrt{b^2-4ac} \over 2a}.\]</p>
-</div><!-- /.blurb -->
+  {% for post in site.posts %}
+    <li><span>{{ post.date | date_to_string }}</span> &raquo; <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a></li>
+  {% endfor %}
+    
+</ul>
 
