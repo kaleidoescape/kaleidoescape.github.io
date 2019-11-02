@@ -121,7 +121,7 @@ $$E = mc^2$$
 One thing I haven't figured out yet is how to change the size or colour of the equations in the equation environment. I guess I will have to leave that off to another day.
 
 
-By the way, to show all of the code blocks above, I followed [this](https://tosbourn.com/liquid-raw-syntax/) guide about jekyll's `liquid` syntax, which tells you how to `highlight` code and how to escape code with the `raw` keyword. 
+By the way, to show all of the code blocks above, I followed [this](https://tosbourn.com/liquid-raw-syntax/) guide about jekyll's `liquid` syntax, which tells you how to highlight code and how to escape code with the `raw` keyword. 
 
 
 There's more formatting to be done on the blog, but at least it looks sort of not the worst now. Yay! XD  
