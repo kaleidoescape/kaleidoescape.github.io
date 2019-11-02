@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Site Launched"
-date: 2019-11-01
+date: 2019-11-02
 ---
 
 I'm playing around with putting a github.io website together. I consider myself a complete beginner in web/html/css/etc., so I had no idea what I was getting myself into when I started this project this morning. I thought it'd be easy with github.io, since they kind of have everything set up for you already, but I actually spent a good chunk of time chasing down tutorials. 
@@ -58,7 +58,7 @@ bundle install --path vendor/bundle
 
 This got the themes installed, but in order to update the HTML/CSS of that theme with my own half-baked design ideas, I followed the helpful instructions on the [Tactile](https://github.com/pages-themes/tactile) GitHub repo page.
 
-Next, I knew that I would want to use math formulas in $\LaTeX$ in my blog posts. There's a number of [tutorials](http://csega.github.io/mypost/2017/03/28/how-to-set-up-mathjax-on-jekyll-and-github-properly.html), [SO questions](https://stackoverflow.com/questions/40440863/mathjax-dont-show-up-on-jekyll-github-pages-but-show-up-on-localhost) and [issues](https://github.com/github/pages-gem/issues/307) on how to deal with problems surrounding this, but it took me a while to piece together the whole picture for my use case. Long story short, I am now using `mathjax`. 
+Next, I knew that I would want to use math formulas in $\LaTeX$ in my blog posts. There's a number of [blog posts](http://www.gastonsanchez.com/visually-enforced/opinion/2014/02/16/Mathjax-with-jekyll/), [tutorials](http://csega.github.io/mypost/2017/03/28/how-to-set-up-mathjax-on-jekyll-and-github-properly.html), [SO questions](https://stackoverflow.com/questions/40440863/mathjax-dont-show-up-on-jekyll-github-pages-but-show-up-on-localhost) and [issues](https://github.com/github/pages-gem/issues/307) on how to deal with problems surrounding this, but it took me a while to piece together the whole picture for my use case. Long story short, I am now using `mathjax`. 
 
 Here's what I had to do to set that up.
 
@@ -124,4 +124,4 @@ One thing I haven't figured out yet is how to change the size or colour of the e
 By the way, to show all of the code blocks above, I followed [this](https://tosbourn.com/liquid-raw-syntax/) guide about jekyll's `liquid` syntax, which tells you how to highlight code and how to escape code with the `raw` keyword. 
 
 
-There's more formatting to be done on the blog, but at least it looks sort of not the worst now. Yay! XD  
+There's more formatting to be done on the blog, and I still have to learn how `mathjax` is different from $\LaTeX$, but at least the site looks sort of not the worst now. Yay! XD  
