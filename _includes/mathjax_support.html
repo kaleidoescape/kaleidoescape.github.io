@@ -1,6 +1,11 @@
 <head>
 <script type="text/x-mathjax-config">
   MathJax.Hub.Config({
+     styles: {
+        ".MathJax": {
+            color: "red"
+        }
+    },
     TeX: {
       equationNumbers: {
         autoNumber: "AMS"
@@ -21,7 +26,7 @@
 		var all = MathJax.Hub.getAllJax(), i;
 		for(i = 0; i < all.length; i += 1)
 		{
-			all[i].SourceElement().parentNode.className += ' has-jax';
+			all[i].SourceElement().className += ' has-jax';
 		}
 	});
 </script>
@@ -29,5 +34,6 @@
 <script type="text/javascript" async
   src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML">
 </script>
+
 </head>
     
