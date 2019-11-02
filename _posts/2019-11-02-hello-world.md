@@ -11,7 +11,7 @@ So here's a rough run down of how I spent my morning today, as best I remember i
 The first thing I did was I went to the [GitHub Pages](https://pages.github.com/) site and followed all of their instructions to set up a GitHub repo. I also made sure to `git clone`d my repo, so I could work on the website in my text editor instead of through the GitHub website. The blog it gets updated on live whenever I do a `git push` to master (although it takes a few minutes to update the website). 
 
 I wanted to start with a pre-built theme for my website, because I know that I have a pretty limited sense of design, so I again followed GitHub's instructions [here](https://help.github.com/en/github/working-with-github-pages/adding-a-theme-to-your-github-pages-site-with-the-theme-chooser) to add a theme (I chose the [Tactile](https://github.com/pages-themes/tactile)
- theme to start with). This created a `_config.yml` file in my repo with a pointer to the correct theme.
+ theme to start with, but later changed to the [jekyll-now](https://github.com/barryclark/jekyll-now) theme). This created a `_config.yml` file in my repo with a pointer to the correct theme.
 
 This is when I realized I had no idea what to do next to create some pages for my new site. Thankfully, this tutorial by [Jonathan McGlone](http://jmcglone.com/guides/github-pages/) gave me a really nice starting point.
 
