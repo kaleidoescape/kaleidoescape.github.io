@@ -104,7 +104,7 @@ This will ensure that the mathjax code gets included in every page that uses the
 {% raw %}
 
 $$
-\definecolor{blue01}{RGB}{38,139,210}
+\definecolor{blue01}{RGB}{47, 52, 135}
 $$
 
 Inline equation: $a+b=c$
@@ -122,8 +122,6 @@ $$
 > Inline equation: $a+b=c$
 >
 > $${ \color{blue01} E } = mc^2$$
-
-One thing I haven't figured out yet is how to change the size or colour of the equations in the equation environment. I guess I will have to leave that off to another day.
 
 
 By the way, to show all of the code blocks above, I followed [this](https://tosbourn.com/liquid-raw-syntax/) guide about jekyll's `liquid` syntax, which tells you how to highlight code and how to escape code with the `raw` keyword. 
