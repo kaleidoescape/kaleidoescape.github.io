@@ -64,6 +64,13 @@ h4 {
   color: $gray;
 }
 
+hr {
+  border: none;
+  height: 1px;
+  color: $lightGray; /* old IE */
+  background-color: $lightGray; /* Modern Browsers */
+}
+
 p {
   margin: 15px 0;
 }
@@ -156,7 +163,7 @@ img {
 
 .masthead {
   padding: 20px 0;
-  border-bottom: 1px solid $lightGray;
+  border-bottom: 2px solid $lightGray;
 
   @include mobile {
     text-align: center;
@@ -254,7 +261,7 @@ nav {
 .post {
   blockquote {
     margin: 1.8em .8em;
-    border-left: 2px solid $gray;
+    border-left: 1px solid $lightGray;
     padding: 0.1em 1em;
     color: $gray;
     font-size: 22px;
@@ -277,6 +284,15 @@ nav {
   border-bottom: 1px solid #ddd;
   background-color: $lightGray;
 }
+
+
+.thickhr {
+  border: none;
+  height: 2px;
+  color: $lightGray; /* old IE */
+  background-color: $lightGray; /* Modern Browsers */
+}
+
 
 footer {
   padding: 20px 0;
