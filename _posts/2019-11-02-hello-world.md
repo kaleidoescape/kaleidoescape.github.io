@@ -15,7 +15,7 @@ This is when I realized I had no idea what to do next to create some pages for m
 
 After following that tutorial, I wanted to play around with some stuff even more. At this point, I knew I needed to setup a local environment to avoid constantly pushing my mistakes to my live page. 
 
-GitHub Pages supports [Jekyll](https://jekyllrb.com/), but I didn't have it yet locally. So first, I had to install some libraries to get everything to run on Ubuntu  18.04 (my current local operating system). I `cd`ed into my git repo project directory, and ran a whole bunch of commands, trying to get things to work. In the end, I think this is everything I had to install: 
+GitHub Pages supports [Jekyll](https://jekyllrb.com/), but I didn't have it yet locally. So first, I had to install some libraries to get everything to run on Ubuntu 18.04 (my current local operating system). I `cd`ed into my git repo project directory, and ran a whole bunch of commands, trying to get things to work. In the end, I think this is everything I had to install: 
 
 {% highlight bash %}
 {% raw %}
@@ -60,7 +60,7 @@ Next, I knew that I would want to use math formulas in $\LaTeX$ in my blog posts
 
 Here's what I had to do to set that up.
 
-First of all, create a file in `_includes/mathjax.html` with the following content:
+First of all, create a file in `_includes/mathjax_support.html` with the following content:
 
 {% highlight html %}
 {% raw %}
