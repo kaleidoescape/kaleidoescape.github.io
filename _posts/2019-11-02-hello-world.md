@@ -104,7 +104,7 @@ This will ensure that the mathjax code gets included in every page that uses the
 {% raw %}
 
 $$
-\definecolor{blue01}{RGB}{47, 52, 135}
+\definecolor{blue01}{RGB}{39, 207, 17}
 $$
 
 Inline equation: $a+b=c$
@@ -116,7 +116,7 @@ $$ { \color{blue01} E } = mc^2$$
 produces this text:
 
 $$
-\definecolor{blue01}{RGB}{47, 52, 135}
+\definecolor{blue01}{RGB}{39, 207, 17}
 $$
 
 > Inline equation: $a+b=c$
