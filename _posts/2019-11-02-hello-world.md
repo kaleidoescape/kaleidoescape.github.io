@@ -25,7 +25,7 @@ sudo gem install rubygems-update
 sudo update_rubygems
 sudo gem install bundler jekyll
 sudo gem install kramdown
-bundler update github-pages
+bundle install --path vendor/bundle
 {% endraw %}
 {% endhighlight %} 
 
@@ -50,7 +50,7 @@ Then I ran:
 
 {% highlight bash %}
 {% raw %}
-bundle install --path vendor/bundle
+bundler update github-pages
 {% endraw %}
 {% endhighlight %}
 
@@ -113,10 +113,10 @@ $$ { \color{blue01} E } = mc^2$$
 {% endraw %}
 {% endhighlight %}
 
-Produces this text:
+produces this text:
 
 $$
-\definecolor{blue01}{RGB}{38,139,210}
+\definecolor{blue01}{RGB}{47, 52, 135}
 $$
 
 > Inline equation: $a+b=c$
