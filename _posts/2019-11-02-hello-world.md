@@ -4,7 +4,7 @@ title: "Site Launched"
 date: 2019-11-02
 ---
 
-I consider myself a complete beginner in web/html/css/etc., so I had no idea what I was getting myself into when I started putting this website together this morning. I thought it'd be easy with github.io, since they kind of have everything set up for you already, but I actually spent a good chunk of time chasing down tutorials. So here's a quick and dirty summary of how I finally got things more or less up and running.
+Although I've created some small static sites before, I consider myself a beginner in web technologies. I think it's safe to say I had no idea what I was getting myself into when I started putting this website together. I thought it'd be easy with github.io, since they kind of have everything set up for you already, but I actually spent a good chunk of time chasing down tutorials. So here's a quick and dirty summary of how I finally got things more or less up and running.
 
 The first thing I did was I went to the [GitHub Pages](https://pages.github.com/) site and followed all of their instructions to set up a GitHub repo. I also made sure to `git clone` my repo, so I could work on the website in my text editor instead of through the GitHub website. The blog gets updated on live whenever I do a `git push` to master (although it takes a few minutes to update the website). 
 
