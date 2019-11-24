@@ -1,4 +1,20 @@
 
+
+code {
+  font:14px Monaco,Consolas,"Andale  Mono","DejaVu Sans Mono",monospace;
+  color: #CB4B16;
+  border-radius: 5px; 
+  -moz-border-radius: 5px; 
+  -webkit-border-radius: 5px; 
+  border: 1px solid #BCBEC0;
+  padding: 2px;
+}
+
+pre code {
+  font:16px Monaco,Consolas,"Andale  Mono","DejaVu Sans Mono",monospace;
+  border: 0px;
+}
+
 .highlight {
   background-color: #1f1f1f;
   padding: 7px 7px 7px 10px;
@@ -8,10 +24,6 @@
   // box-shadow: 3px 3px rgba(0,0,0,0.1);
   // margin: 20px 0 20px 0;
   overflow: scroll;
-}
-
-code {
-  font-family:'Bitstream Vera Sans Mono','Courier', monospace;
 }
 
 .highlight { color: #d0d0d0 }
