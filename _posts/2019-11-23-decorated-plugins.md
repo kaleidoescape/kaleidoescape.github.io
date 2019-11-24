@@ -6,11 +6,9 @@ date: 2019-11-23
 
 When I think about how challenging it can be to read other developers' code or even just one's own code months later, I also think about how important it is to develop software with extensibility in mind from the start. So that's why when working in python3, I've found myself using a pattern of providing a single location in the code where new plugins can be easily added, and a handy decorator that a developer can use for registering a plugin. 
 
-There's lots of different ways to create a plugin architecture. The one we will develop in this post is lightweight. It's mainly intended for a codebase which needs a clear way of extending typical functionalities. I've seen a similar pattern show up in neural network frameworks that allow developers to add new model architectures. 
+There's lots of different ways to create a plugin architecture. The one we will develop in this post is lightweight, and mainly intended for a codebase which needs a clear way of extending typical functionalities. I've seen a similar pattern show up in neural network frameworks that allow developers to add new model architectures. We don't have to be building a neural network framework to make use of this pattern, though, so let's take a simpler example for our project. This project will be in *python3.7*. 
 
-We don't have to be building a neural network framework to make use of this pattern, though, so let's take a simpler example for our project. This project will be in *python3.7*. 
-
-Let's say we're processing a dataset of text files in some way, such as to replace extra symbols that are not useful for the task at hand. For example, we may want to add a rule to replace XML tags with some special token. We can do this in a naive (and [madness inducing](https://gist.github.com/kaleidoescape/524f6f53a4562eaf6d8f1463f4d54670)) way by using a regular expression [&#91;1&#93;](#xmlregex):
+Let's say we're processing a dataset of text files in some way, such as to replace extra symbols that are not useful for the task at hand. For example, we may want to add a rule to replace XML tags with some special token. We can do this in a naive (and [madness inducing](https://stackoverflow.com/questions/1732348/regex-match-open-tags-except-xhtml-self-contained-tags/1732454#1732454)) way by using a regular expression [&#91;1&#93;](#xmlregex):
 
 {% highlight python %}
 {% raw %}
@@ -30,7 +28,7 @@ def replace_urls(sentence):
 
 _Note: Both of these regexes will not work in any real situations, and you shouldn't use them; I just wanted to have a short, stupid example for us to work with in this mini project._
 
-We could just add all of these functions into a separate python module inside my codebase, and import them in whatever script we want to use them in. The drawbacks of that are that each time we want to add a new function to the process, we have to make sure that we import what we need and/or add it to whatever location makes the invocation. 
+We could just add all of these functions into a separate python module inside our codebase, and import them in whatever script we want to use them in. The drawbacks of that are that each time we want to add a new function to the process, we have to make sure that we import what we need and/or add it to whatever location makes the invocation. 
 
 Not only that, but if a new developer approaches the codebase for the first time, they have to understand how all these pieces and imports are put together before they can add their own replacer function, as well as how the inputs/outputs of the plugin should look. It's much nicer if we can provide new developers a clear path to adding new functionality. 
 
@@ -38,9 +36,9 @@ Concretely, we would like to:
 1. provide a consistent interface for plugins, that makes it clear what types of inputs/outputs they should have
 2. provide a clear way for developers to declare a function as a plugin
 3. automate the import of plugins, so the developer doesn't have to figure out where they should go
-4. provide a simple user interface, which can be used to give different input sentences and select different processors to use
+4. provide a simple user interface, which can be used to give different input sentences and select different plugins to use
 
-There are a few different ways of achieving this, but I will focus on doing it with decorators. What I like about [decorators](https://realpython.com/primer-on-python-decorators/), is that they are descriptive. They make a plain statement as to the goals of the developer using them. They also allow plugin methods to be intermixed with other code, which is useful if the plugin involves  more complexity than just a simple function. I'll show how it works a little further down the page.
+There are a few different ways of achieving this, but I will focus on doing it with decorators. A [decorator](https://realpython.com/primer-on-python-decorators/) is basically just a function that takes another function as input, and returns a modified version of it. Python adds some extra syntactic sugar on top of this, using the `@` symbol, which makes for a very clear and descriptive usage of decorators. What I like about them is that they make it clear as to the goals of the developer using them. They also allow decorated methods to be intermixed with other code, which is useful for our plugins, in case the plugins involves more complexity than just a simple function. I'll show how it works a little further down the page.
 
 ## Provide an interface
 
@@ -73,7 +71,7 @@ class ReplaceUrls(Plugin):
 {% endraw %}
 {% endhighlight %}
 
-By using this kind of interface, we are restricting the plugin developer from writing any sort of code. This is useful, because now the main portion of our codebase knows exactly how to invoke the plugins. That is, they always look exactly the same. It's a little less flexible this way, but much more sane to code.
+By using this kind of interface, we are restricting the plugin developer from writing any arbitrary code to make the plugin work. This is useful, because now the main portion of our codebase knows exactly how to invoke the plugins that implement the `Plugin` interface. That is, it expects plugins to always look exactly the same. The plugin functionality is a little less flexible this way, but much more sane to work with.
 
 ## Declaring plugins
 
@@ -162,9 +160,9 @@ class ReplaceTags(Plugin):
 {% endraw %}
 {% endhighlight %}
 
-For this, we need to create a slightly more complicated decorator. The problem is that we can't pass in both the decorated object and the extra decorator arguments, such as `name`, to decorators using the `@` syntax. The reason for this has to do with the [implementation of decorators](https://www.artima.com/weblogs/viewpost.jsp?thread=240845#decorators-with-arguments) themselves. Decorators are a class that take an callable in their `__init__` constructor, and invoke the callable in their own `__call__` method. If we give arguments to the constructor, the callable doesn't get correctly passed in.
+For this, we need to create a slightly more complicated decorator. The problem is that we can't pass in both the decorated object and the extra decorator arguments, such as `name`, to decorators using the `@` syntax. The reason for this has to do with the [implementation of decorators](https://www.artima.com/weblogs/viewpost.jsp?thread=240845#decorators-with-arguments) themselves. Decorators are a class that take a callable in their `__init__` constructor, and invoke the callable in their own `__call__` method. If we give arguments to the constructor, the callable doesn't get correctly passed in.
 
-We can still use python's decorators, we just have to be a little trickier with them. In this case, we are going to add an [inner function](https://realpython.com/inner-functions-what-are-they-good-for/) to `register_plugin`. The outer function will now accept the single argument of `name`, while the inner function will wrap the `Plugin`, and return a modified version of it. Essentially, the inner function is the decorator, and the outer function is just a wrapper around that decorator.
+We can still use python's decorators, we just have to be a little trickier with them. In this case, we are going to add an [inner function](https://realpython.com/inner-functions-what-are-they-good-for/) to `register_plugin`. The outer function will now accept the single argument of `name`, while the inner function will wrap the `Plugin`, and return a modified version of it. Essentially, the inner function is the decorator wrapping the callable, and the outer function is another wrapper around that decorator.
 
 {% highlight python %}
 {% raw %}
@@ -177,7 +175,7 @@ def register_plugin(name):
              " that all plugins have unique names.")
 
     def wrapper_register_plugin(plugin_class):
-        plugin = plugin_class() 
+        plugin = plugin_class() #instantiate the plugin 
         PLUGINS[name] = plugin
         return plugin 
 
@@ -185,9 +183,7 @@ def register_plugin(name):
 {% endraw %}
 {% endhighlight %}
 
-The outer function is now a factory that creates instances of the inner function. It creates a closure over the inner function, thus letting the inner function access the `name` parameter. That is, it extends a scope over the inner function, that allows the inner function access to its names. Since we return the inner function, those names are now persisted in the inner function. This is possible thanks to the fact that functions in python are actually objects like any other object. 
-
-When we invoke the `@register_plugin(name='replace_tags')` we are doing nothing particularly special. We just invoke a function with some arguments. It just so happens though, that that function returns the inner `wrapper_register_plugin` function as an object (i.e. not invoked yet). The `@` syntax then invokes the `wrapper_register_function` by passing in the one required argument of the `ReplaceTags` class, and the rest proceeds as normal, that is `ReplaceTags` is instantiated, added to the `PLUGINS` dictionary, and returned as per usual. 
+When we invoke the `@register_plugin(name='replace_tags')` we are doing nothing particularly special. We just invoke a function with some arguments. It just so happens though, that that function returns the inner `wrapper_register_plugin` function as an object (i.e. not invoked yet). The `@` syntax then invokes the `wrapper_register_function` by passing in the one required argument of the `ReplaceTags` class, and the rest proceeds as normal. That is, `ReplaceTags` is instantiated, added to the `PLUGINS` dictionary, and returned as per usual. 
 
 All in all, this is similar to doing the following:
 
@@ -200,62 +196,36 @@ ReplaceTags = wrapper_register_plugin(ReplaceTags)
 
 Only, by doing it with the inner function, we get the benefit of a much clearer syntax for new developers adding plugins to our system.
 
-## Importing plugins
-
-So far, we haven't talked much about how all of these scripts we have can be organized. We could just have everything in one script, but this will quickly become unmaintainable. It would be better if plugins got their own directory, so it's always clear to new developers where to go to add new functionality. 
-
-But if decorators are divorced from their decorated objects, how can we make sure that the objects get decorated, and then added to the dictionary _before_ they need to be called in the main portion of the code? 
-
-For this piece of the puzzle, we need to know a little bit about python [imports](https://chrisyeh96.github.io/2017/08/08/definitive-guide-python-imports.html),which are not the most straightforward part of python. 
-
-The most important part of all of this is that we avoid circular imports, and that we ensure that the `PLUGINS` dictionary gets populated with decorated plugins by the decorators before the rest of the code is executed. 
-
-To do this, our directory structure will look like so:
-
-{% highlight bash %}
+{% highlight python %}
 {% raw %}
-.
-├── constants.py
-├── decorators.py
-├── __init__.py
-├── plugins
-│   ├── plugins.py
-└── run.py
+@register_plugin(name="replace_tags")
+class ReplaceTags(Plugin):
+    ...
 {% endraw %}
 {% endhighlight %}
 
-The `constants.py` module will have:
-- `WORKING_DIR = os.path.dirname(os.path.abspath(__file__))`
-- and any other constants we may need later
+## Importing plugins
 
-The `decorators.py` module will have:
-- `PLUGINS`
-- `register_plugin`
-- plugin importing code
+So far, we haven't talked much about how all of these scripts we have can be organized. We could just have everything in one script, but this will quickly become unmaintainable. It would be better if plugins got their own directory, so it's always clear to new developers where to add new functionality, but we would still like to prevent developers from having to know where to add imports. We want to make the architecture automatically find all of the decorated plugins. 
 
-The `__init__.py` file will have
-- `import decorators`
+For this piece of the puzzle, we need to know a little bit about python [imports](https://chrisyeh96.github.io/2017/08/08/definitive-guide-python-imports.html), which are not the most straightforward part of python. The most important part of all of this is that we (a) avoid circular imports, and (b) ensure that the `PLUGINS` dictionary gets populated with decorated plugins by the decorators _before_ the rest of the code is executed-- both when running our entrypoint script, and when importing our package.
 
-The `plugins.py` module will have:
-- `Plugin` abstract base class, and decorated plugins (e.g. `ReplaceTags`)
+We can do this by creating an `__init__.py` in our project. This file is the first file (except built-ins) that gets scanned for imports by the python interpreter. Adding an import statement at the top of this file ensures that the interpreter parses and loads those objects first:
 
-The `run.py` script will be our entrypoint, and it will have:
-- an import of `PLUGINS` at the top
-- the business logic
-- argument parsing (although we can move it out if it gets big as well) 
+{% highlight python %}
+{% raw %}
+import decorators
+{% endraw %}
+{% endhighlight %}
 
-The `register_plugin` decorator needs to be where the `PLUGINS` dictionary is so that it has access to the dictionary (recall that we are adding to the dictionary inside the decorator's code). The code that performs the imports has to be in the same location, because we want to import those classes into the dictionary. We don't want to divorce any of these from the other. For example, we don't want the `PLUGINS` to be moved into `constants.py`. This is because we want to make sure that the interpreter does not follow a chain of imports out from `decorators.py`, until the `PLUGINS` dictionary is filled. By importing `decorators` in `__init__.py`, we ensure that it is the very first thing parsed and loaded. 
-
-We will put the plugins themselves in their own subpackage, because even though it doesn't actually matter where we search for them, it does help avoid unnecessary calls to import, and it makes it easier for developers to find their home.
-
-So, the import code itself in `decorators.py` will look like this:
+Naturally, we then need to create `decorators.py`. This module will contain all of the decoration and importing machinery, like so:
 
 {% highlight python %}
 {% raw %}
 import os
 import importlib
 
-from constants import WORKING_DIR
+WORKING_DIR = os.path.dirname(os.path.abspath(__file__))
 
 PLUGINS = {}
 
@@ -276,14 +246,16 @@ def collect_decorated(dir_name):
             and f.endswith('.py')
         ):
             file_name = f[:f.find('.py')]
-            module = importlib.import_module(f'{dir_name}.{file_name}')
+            module = importlib.import_module(
+                f'{dir_name}.{file_name}')
 
-collect_decorated("plugins") #NOT inside main declaration
+collect_decorated("plugins") #stays outside main declaration
 {% endraw %}
 {% endhighlight %}
 
+The `collect_decorated` function loops over all non-private modules (the ones that don't start with `_`) in the `plugins` folder, and uses `importlib` to import them by name. Since `decorators.py` will never be called as a main module, we need to make sure that the `collect_decorated` function stays outside of the main declaraion (outside of `if __name__ == '__main__'`) to ensure it gets invoked upon import of this file.
 
-The `collect_decorated` function loops over all non-private (don't start with `_`) modules in the `plugins` folder, and uses `importlib` to import them by name. The function needs to be called right away, not in any `if __name__ == '__main__'` declaration, because this module will never be called as the main module, so if we hide this behind the main declaration, it will never be invoked.
+We want to keep all of this code together (i.e. don't split up the dictionary from the decorators or the call to `importlib`). This is because we want to make sure that the interpreter does not follow a chain of imports out from here until after the `PLUGINS` dictionary is finished being filled. 
 
 ## User interface
 
@@ -316,26 +288,31 @@ def process_sentence(sentence, plugin_names=[]):
     """
     new_sentence = sentence
     for name in plugin_names:
-        new_sentence = PLUGINS[name](new_sentence) #CALL THE PLUGINS
+        new_sentence = PLUGINS[name](new_sentence) 
     return new_sentence
 
 def process_file(infile, outfile, processors):
-    """Process the infile of one sentence per line into an outfile."""
-    with open(infile, 'r', encoding='utf-8', newline=os.linesep) as instream, \
-         open(outfile, 'w', encoding='utf-8', newline=os.linesep) as outstream:
+    """
+    Process infile of one sentence per line.
+    Write the output to a new outfile.
+    """
+    with open(infile, 'r', encoding='utf-8') as instream, \
+         open(outfile, 'w', encoding='utf-8') as outstream:
         for i, line in enumerate(instream):
             sentence = line.strip()
             new_sentence = process_sentence(sentence, processors)
-            outstream.write(new_sentence + os.linesep)
+            outstream.write(new_sentence + '\n')
 
 def run(config_file):
     """
-    Process sentences from an input file and create an output file.
+    Parse a config file to get the input file path
+    and the list of processors. Apply processors 
+    to sentences in the input file and save them to 
+    a new output file with the `.processed` extension.
     """
     with open(config_file, 'r', encoding='utf-8') as instream:
         config = json.load(instream)
         
-    config = parse_config(config)
     processors = config["processors"]
 
     infile = config["input"]
@@ -343,13 +320,15 @@ def run(config_file):
     process_file(infile, outfile, processors)
 
 def parse_args():
-    parser = argparse.ArgumentParser(description="a mini plugin architecture")
+    parser = argparse.ArgumentParser(
+        description="a mini plugin architecture")
     parser.add_argument("config", 
-        help="file path of json config file with 'input' and 'processors'")
+        help="file path of json config file")
 
     args = parser.parse_args()
     if not os.path.exists(args.config):
-        raise FileNotFoundError(f"config file not found: {args.config}")
+        raise FileNotFoundError(
+            f"config file not found: {args.config}")
     
     return args
 
@@ -359,6 +338,40 @@ if __name__ == '__main__':
 
 {% endraw %}
 {% endhighlight %}
+
+
+## Directory structure
+
+Our final directory structure, with all the code we have written so far, will look like this:
+
+{% highlight bash %}
+{% raw %}
+.
+├── decorators.py
+├── __init__.py
+├── plugins
+│   ├── plugins.py
+└── run.py
+{% endraw %}
+{% endhighlight %}
+
+The `decorators.py` module will have:
+- `PLUGINS`: dictionary of plugin names to instantiated plugins
+- `register_plugin`: decorator to add a plugin to the dictionary
+- `collect_decorators`: imports decorated plugins form subpackages
+
+The `__init__.py` file will have
+- `import decorators`: early call to import this before everything else
+
+The `plugins.py` module will have:
+- `Plugin`: abstract base class
+- decorated plugins (e.g. `ReplaceTags`)
+
+The `run.py` script will be our entrypoint, and it will have:
+- an import of `PLUGINS` at the top
+- the business logic
+- argument parsing (although we can move it out if it gets big as well) 
+
 
 ## Summary
 
@@ -373,4 +386,4 @@ The original codebase for this blog post (plus a few extra functions) can be fou
 
 
 ## Footnotes
-[1]<a name="xmlregex"></a> XML is a structured markup language, which means it usually makes much more sense to use a proper XML parser to extract tags or portions of the data that you need. On the other hand, there may be times when you're dealing with some strange use case, in which you have some deformed tags, outside of a structured document. I did have to [do this once](https://gist.github.com/kaleidoescape/524f6f53a4562eaf6d8f1463f4d54670), but you should probably [read this famous thread](https://gist.github.com/kaleidoescape/524f6f53a4562eaf6d8f1463f4d54670) before following down this path of madness.... for me, it's too late, but you may yet have a chance to save yourself!
+[1]<a name="xmlregex"></a> XML is a structured markup language, which means it usually makes much more sense to use a proper XML parser to extract tags or portions of the data that you need. On the other hand, there may be times when you're dealing with some strange use case, in which you have some deformed tags, outside of a structured document. I did have to [do this once](https://gist.github.com/kaleidoescape/524f6f53a4562eaf6d8f1463f4d54670), but you should probably [read this famous thread](https://stackoverflow.com/questions/1732348/regex-match-open-tags-except-xhtml-self-contained-tags/1732454#1732454) before following down this path of madness.... for me, it's too late, but you may yet have a chance to save yourself!
