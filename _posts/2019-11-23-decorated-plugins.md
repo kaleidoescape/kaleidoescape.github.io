@@ -235,8 +235,8 @@ class NameConflictError(BaseException):
 def register_plugin(name):
     ...
 
-def collect_decorated(dir_name):
-    """Import all decorated objects inside a directory."""
+def import_modules(dir_name):
+    """Import all modules inside a directory."""
     direc = os.path.join(WORKING_DIR, dir_name)
     for f in os.listdir(direc):
         path = os.path.join(direc, f)
@@ -249,11 +249,11 @@ def collect_decorated(dir_name):
             module = importlib.import_module(
                 f'{dir_name}.{file_name}')
 
-collect_decorated("plugins") #stays outside main declaration
+import_modules("plugins") #stays outside main declaration
 {% endraw %}
 {% endhighlight %}
 
-The `collect_decorated` function loops over all non-private modules (the ones that don't start with `_`) in the `plugins` folder, and uses `importlib` to import them by name. Since `decorators.py` will never be called as a main module, we need to make sure that the `collect_decorated` function stays outside of the main declaraion (outside of `if __name__ == '__main__'`) to ensure it gets invoked upon import of this file.
+The `import_modules` function loops over all non-private modules (the ones that don't start with `_`) in the `plugins` folder, and uses `importlib` to import them by name. Since `decorators.py` will never be called as a main module, we need to make sure that the `import_modules` function stays outside of the main declaraion (outside of `if __name__ == '__main__'`) to ensure it gets invoked upon import of this file.
 
 We want to keep all of this code together (i.e. don't split up the dictionary from the decorators or the call to `importlib`). This is because we want to make sure that the interpreter does not follow a chain of imports out from here until after the `PLUGINS` dictionary is finished being filled. 
 
