@@ -2,6 +2,8 @@
 layout: post
 title: "Site Launched"
 date: 2019-11-02
+featured-image: fireworks-copyright-svetlana-tchistiakova.jpg
+featured-image-alt: Fireworks on July 4th in my hometown. 
 ---
 
 Although I've created some small static sites before, I consider myself a beginner in web technologies. I think it's safe to say I had no idea what I was getting myself into when I started putting this website together. I thought it'd be easy with github.io, since they kind of have everything set up for you already, but I actually spent a good chunk of time chasing down tutorials. So here's a quick and dirty summary of how I finally got things more or less up and running.
@@ -124,7 +126,8 @@ $$
 > $${ \color{blue01} E } = mc^2$$
 
 
-By the way, to show all of the code blocks above, I followed [this](https://tosbourn.com/liquid-raw-syntax/) guide about jekyll's `liquid` syntax, which tells you how to highlight code and how to escape code with the `raw` keyword. 
+To show all of the code blocks above, I followed [this](https://tosbourn.com/liquid-raw-syntax/) guide about jekyll's `liquid` syntax, which tells you how to highlight code and how to escape code with the `raw` keyword. 
 
+I later also added featured images to posts, following [this](https://pnmcartodesign.wordpress.com/2018/10/01/how-to-create-a-featured-image-template-for-a-jekyll-blog-site/) great tutorial from Patrick N. McKinney.
 
 There's more formatting to be done on the blog, I still have to learn how `mathjax` is different from $\LaTeX$, and how to do a bunch of stuff, but at least the site looks sort of not the worst now. Yay! XD  

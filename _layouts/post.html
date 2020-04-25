@@ -2,6 +2,11 @@
 layout: default
 ---
 
+<!-- call the post-featured-image.html template file -->
+{% if page.featured-image %}
+  {% include post-featured-image.html image=page.featured-image alt=page.featured-image-alt %}
+{% endif %}
+
 <article class="post">
   <h1>{{ page.title }}</h1>
 
