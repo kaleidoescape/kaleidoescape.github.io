@@ -4,8 +4,6 @@ title: "Decorated Plugins"
 date: 2019-11-23
 featured-image: decorated-plugins-decorator.png
 featured-image-alt: The python decorator used to make the system aware of a plugin. 
-#featured-image: decoration-copyright-svetlana-tchistiakova.jpg
-#featured-image-alt: Decoration on the underside of a balcony in Brussels. 
 ---
 
 When I think about how challenging it can be to read other developers' code or even just one's own code months later, I also think about how important it is to develop software with extensibility in mind from the start. So that's why when working in python3, I've found myself using a pattern of providing a single location in the code where new plugins can be easily added, and a handy decorator that a developer can use for registering a plugin. 
