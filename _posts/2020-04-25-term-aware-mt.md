@@ -14,7 +14,7 @@ In this talk, that I made for a friend who runs a Belarus NLP meetup from [NLPro
 - Methods for incorporating term guidance in the NMT system, agnostic to the specific term bank used at inference time
 
 
-The slides are available [here]({{ site.baseurl }}{{ post.url }}/assets/pdfs/term-aware-mt-presentation.pdf), and the recording of the presentation can be viewed on YouTube:
+The recording of the presentation which was made in the public meetup can be viewed on YouTube:
 
 <p align="center">
 <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/c3-Ma8TAXRw" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
