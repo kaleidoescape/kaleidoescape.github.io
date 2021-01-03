@@ -105,25 +105,25 @@ This will ensure that the mathjax code gets included in every page that uses the
 {% highlight liquid %}
 {% raw %}
 
-$$
+\begin{equation}
 \definecolor{blue01}{RGB}{39, 207, 17}
-$$
+\end{equation}
 
 Inline equation: $a+b=c$
 
-$$ { \color{blue01} E } = mc^2$$
+\begin{equation} { \color{blue01} E } = mc^2 \end{equation}
 {% endraw %}
 {% endhighlight %}
 
 produces this text:
 
-$$
+\begin{equation}
 \definecolor{blue01}{RGB}{39, 207, 17}
-$$
+\end{equation}
 
 > Inline equation: $a+b=c$
 >
-> $${ \color{blue01} E } = mc^2$$
+> \begin{equation} { \color{blue01} E } = mc^2 \end{equation}
 
 
 To show all of the code blocks above, I followed [this](https://tosbourn.com/liquid-raw-syntax/) guide about jekyll's `liquid` syntax, which tells you how to highlight code and how to escape code with the `raw` keyword. 
